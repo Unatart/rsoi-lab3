@@ -1,0 +1,16 @@
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: #f4511e;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size:20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.pagination a.active {
+    color: #c14b1c;
+}

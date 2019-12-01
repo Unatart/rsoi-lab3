@@ -35,8 +35,8 @@ class App extends React.Component {
                     <Switch>
                         {this.navbar.home && <Route exact path="/"><MainPage/></Route>}
                         {this.navbar.auth && <Route path="/auth"><AuthPage/></Route>}
-                        {this.navbar.auth && <Route path="/favs"><FavPage/></Route>}
-                        {this.navbar.auth && <Route path="/settings"><SettingsPage/></Route>}
+                        {this.navbar.favs && <Route path="/favs"><FavPage/></Route>}
+                        {this.navbar.settings && <Route path="/settings"><SettingsPage/></Route>}
                     </Switch>
                 </div>
             </HashRouter>

@@ -13,7 +13,7 @@ export class HomePage extends React.Component<{}, IHomeState> {
     }
 
     public componentDidMount():void {
-        const options = {
+        const options:RequestInit = {
             method: 'GET',
             mode: 'cors',
             credentials: "include",
@@ -22,7 +22,6 @@ export class HomePage extends React.Component<{}, IHomeState> {
                 "Content-Type" : "application/json"}
         };
 
-        // @ts-ignore
         fetch("http://localhost:5000/stories", options)
             .then((response: Response) => {
                 return response.json();

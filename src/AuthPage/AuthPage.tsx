@@ -49,7 +49,7 @@ class AuthPage extends React.Component<IAuthProps, IAuthState> {
 
     public handleSubmitButton(event:any):Promise<void> {
         event.preventDefault();
-        const options = {
+        const options:RequestInit = {
             method: 'POST',
             mode: 'cors',
             credentials: "include",
@@ -59,7 +59,6 @@ class AuthPage extends React.Component<IAuthProps, IAuthState> {
             body:JSON.stringify({ name: this.state.username, password: this.state.password })
         };
 
-        // @ts-ignore
         return fetch("http://localhost:5000/user/auth", options)
             .then((response:Response) => {
                 this.cookie_worker.set("user", this.state.username);

@@ -1,12 +1,17 @@
 import React from "react";
 import "./Auth.css";
 
-export function AuthPanel():JSX.Element {
+export interface IAuthPageProps {
+    handleSubmit:(event:any) => void;
+    handleChange: (event:any) => void;
+}
+
+export function AuthPanel(props:IAuthPageProps):JSX.Element {
     return (
         <form className='auth-form'>
-            <input type='text' placeholder='Username'/>
-            <input type='password' placeholder='Password'/>
-            <input className='submit-btn' type='submit' value='Sign In'/>
+            <input name='username' type='text' placeholder='Username' onChange={props.handleChange}/>
+            <input name='password' type='password' placeholder='Password' onChange={props.handleChange}/>
+            <input className='submit-btn' type='submit' value='Sign In' onClick={props.handleSubmit}/>
         </form>
     );
 }

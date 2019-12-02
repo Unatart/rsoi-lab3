@@ -3,7 +3,7 @@ import "./Card.css";
 
 interface ICardProps {
     story:string;
-    author:string;
+    author?:string;
     name:string;
 }
 
@@ -16,7 +16,7 @@ export function Card(props:ICardProps):JSX.Element {
                 </div>
                 <div className="card-story">{props.story}</div>
             </div>
-            <div className="card-author">{props.author}</div>
+            {props.author && <div className="card-author">{props.author}</div>}
         </div>
     );
 }

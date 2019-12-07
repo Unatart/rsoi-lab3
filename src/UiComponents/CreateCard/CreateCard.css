@@ -1,0 +1,58 @@
+.form {
+    position: relative;
+    width: 50%;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    height: 50%;
+    margin-left: 25%;
+    margin-top: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form input{
+    background:transparent;
+    margin:5px;
+    color:#dd2c00;
+    font-size:15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.form input:focus {
+    outline: none;
+}
+
+.form input::placeholder{
+    color:#dd2c00;
+}
+
+.form input.save-btn:hover{
+    background:#f4511e;
+    color: white;
+}
+
+.create-card-theme {
+    font-size: 20px;
+    padding: 1% 1%;
+    border: none;
+    border-bottom: 2px solid rgba(8, 0, 4, 0.1);
+}
+
+.create-card-story {
+    width: 50%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 1px solid #f4511e;
+    background-color: transparent;
+    resize: none;
+    color:#dd2c00;
+    font-size:15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.card-story::placeholder {
+    color:#dd2c00;
+}

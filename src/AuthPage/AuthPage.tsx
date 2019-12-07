@@ -61,7 +61,10 @@ class AuthPage extends React.Component<IAuthProps, IAuthState> {
 
         return fetch("http://localhost:5000/user/auth", options)
             .then((response:Response) => {
-                this.cookie_worker.set("user", this.state.username);
+                return response.json();
+            })
+            .then((data:any) => {
+                this.cookie_worker.set("user", data.user.id);
                 this.props.history.push("/");
                 this.props.update_handler();
             })

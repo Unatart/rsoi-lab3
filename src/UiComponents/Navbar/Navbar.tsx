@@ -24,6 +24,9 @@ export function Navbar(props:INavBarProps):JSX.Element {
             {props.settings && <li>
                 <Link to="/settings">Settings</Link>
             </li>}
+            {props.settings && <li>
+                <Link className="story" to="/create_story">create a new story</Link>
+            </li>}
         </ul>
     );
 }

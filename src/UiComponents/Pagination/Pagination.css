@@ -1,3 +1,9 @@
+.pagination-parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .pagination {
     display: inline-block;
 }
@@ -11,6 +17,7 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-.pagination a.active {
+.pagination a:hover {
     color: #c14b1c;
+    font-size:24px;
 }

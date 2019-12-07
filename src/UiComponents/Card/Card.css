@@ -36,6 +36,26 @@
 .make-favourite {
     display: inline-block;
     padding-left:10px;
+    background-color: #f4511e;
+    border: none;
+    color: white;
+    font-size:20px;
+}
+
+.make-favourite:hover {
+    display: inline-block;
+    padding-left:10px;
+    background-color: #f4511e;
+    border: none;
+    color: white;
+    font-size:24px;
+}
+
+.delete-story {
+    display: inline-block;
+    padding-right:10px;
+    background-color: #f4511e;
+    border: none;
     color: white;
     font-size:20px;
 }

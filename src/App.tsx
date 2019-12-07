@@ -6,6 +6,7 @@ import {INavBarProps, Navbar} from "./UiComponents/Navbar/Navbar";
 import {AuthPageWrapper} from "./AuthPage/AuthPage";
 import {FavPage} from "./FavPage/FavPage";
 import {SettingsPage} from "./SettingsPage/SettingsPage";
+import {CreateCard} from "./UiComponents/CreateCard/CreateCard";
 
 interface IAppState {
     navbar:INavBarProps;
@@ -64,10 +65,11 @@ class App extends React.Component<{}, IAppState> {
                 <div>
                     <Navbar {...this.state.navbar} />
                     <Switch>
-                        {this.state.navbar.home && <Route exact path="/"><HomePage/></Route>}
+                        {this.state.navbar.home && <Route exact path="/"><HomePage is_auth={!!this.state.navbar.settings}/></Route>}
                         {this.state.navbar.auth && <Route path="/auth"><AuthPageWrapper update_handler={() => this.checkCookieWorker()}/></Route>}
                         {this.state.navbar.favs && <Route path="/favs"><FavPage/></Route>}
                         {this.state.navbar.settings && <Route path="/settings"><SettingsPage/></Route>}
+                        {this.state.navbar.settings && <Route path="/create_story"><CreateCard/></Route>}
                     </Switch>
                 </div>
             </HashRouter>

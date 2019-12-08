@@ -5,7 +5,7 @@ interface ICardProps {
     story:string;
     author?:string;
     name:string;
-    makeFav:() => void;
+    makeFav?:() => void;
     deleteStory:() => void;
     is_auth?:boolean;
     user_story?:boolean;

@@ -1,5 +1,4 @@
 import React from "react";
-import "./HomePage.css";
 import {Card} from "../UiComponents/Card/Card";
 import {Pagination} from "../UiComponents/Pagination/Pagination";
 import {CookieWorker} from "../Cookie/CookieWorker";
@@ -111,10 +110,13 @@ export class HomePage extends React.Component<{is_auth:boolean}, IHomeState> {
             return (
                 <div>
                     <div>
-                        {stories.map((story:any, key:number) => {
-                            return <Card story={story["article"]} name={story["theme"]} key={key}
-                                         makeFav={() => this.makeFav(story["id"])} is_auth={this.props.is_auth} user_story={this.cookie_worker.get("user") === story["author"]} deleteStory={() => this.deleteStory(story["id"])}/>
-                        })}
+                        {stories.map((story:any, key:number) => <Card story={story["article"]}
+                                                                     name={story["theme"]}
+                                                                     key={key}
+                                                                     makeFav={() => this.makeFav(story["id"])}
+                                                                     is_auth={this.props.is_auth}
+                                                                     user_story={this.cookie_worker.get("user") === story["author"]}
+                                                                     deleteStory={() => this.deleteStory(story["id"])}/>)}
                     </div>
                     <Pagination data={this.state.data} amount={this.state.amount} pageNo={this.state.pageNo} onClick={(pageNo:number) => this.onPageClick(pageNo)}/>
                 </div>

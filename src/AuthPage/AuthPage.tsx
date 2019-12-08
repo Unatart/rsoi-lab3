@@ -5,7 +5,8 @@ import {useHistory} from "react-router-dom";
 
 interface IAuthState {
     username:string,
-    password:string
+    password:string,
+    error?:string;
 }
 
 interface IAuthWrapperProps {
@@ -27,11 +28,19 @@ class AuthPage extends React.Component<IAuthProps, IAuthState> {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    public componentDidMount(): void {
+        this.setState({
+            ...this.state,
+            error: undefined
+        })
+    }
+
     public render() {
         return (
             <AuthPanel
                 handleChange={(event) => this.handleChange(event)}
                 handleSubmit={(event) => this.handleSubmitButton(event)}
+                error={this.state.error}
             />
         );
     }
@@ -47,30 +56,50 @@ class AuthPage extends React.Component<IAuthProps, IAuthState> {
         });
     }
 
-    public handleSubmitButton(event:any):Promise<void> {
+    public handleSubmitButton(event:any):void {
         event.preventDefault();
-        const options:RequestInit = {
-            method: 'POST',
-            mode: 'cors',
-            credentials: "include",
-            headers: {
-                "Access-Control-Allow-Credentials" : "true",
-                "Content-Type" : "application/json"},
-            body:JSON.stringify({ name: this.state.username, password: this.state.password })
-        };
+        if (this.state.password && this.state.username) {
+            const options: RequestInit = {
+                method: 'POST',
+                mode: 'cors',
+                credentials: "include",
+                headers: {
+                    "Access-Control-Allow-Credentials": "true",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({name: this.state.username, password: this.state.password})
+            };
 
-        return fetch("http://localhost:5000/user/auth", options)
-            .then((response:Response) => {
-                return response.json();
+            fetch("http://localhost:5000/user/auth", options)
+                .then((response: Response) => {
+                    return response.json();
+                })
+                .then((data: any) => {
+                    if (data.error) {
+                        return this.setState({
+                            ...this.state,
+                            error: data.error
+                        });
+                    }
+                    this.cookie_worker.set("user", data.user.id);
+                    this.cookie_worker.set("name", data.user.name);
+                    this.cookie_worker.set("phone", data.user.phone);
+                    this.cookie_worker.set("email", data.user.email);
+                    this.props.history.push("/");
+                    this.props.update_handler();
+                })
+                .catch((error:any) => {
+                    this.setState({
+                        ...this.state,
+                        error: error
+                    });
+                });
+        } else {
+            this.setState({
+                ...this.state,
+                error: "You must fill in the fields above."
             })
-            .then((data:any) => {
-                this.cookie_worker.set("user", data.user.id);
-                this.props.history.push("/");
-                this.props.update_handler();
-            })
-            .catch((error:any) => {
-                console.log(error);
-            });
+        }
     }
 
     private cookie_worker = new CookieWorker();

@@ -32,3 +32,15 @@
     background:#f4511e;
     color: white;
 }
+
+.error {
+    color: #f4511e;
+    font-size: 22px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.warning {
+    color: #f4511e;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+}

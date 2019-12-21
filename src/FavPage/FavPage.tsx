@@ -64,10 +64,14 @@ export class FavPage extends React.Component<{}, IFavState> {
             return (
                 <div>
                     <div>
-                        {stories.map((story: any, key: number) => <Card story={story.result["article"]}
-                                                                        name={story.result["theme"]} key={key}
-                                                                        user_story={true}
-                                                                        deleteStory={() => this.deleteFavStory(story.result["story_id"])}/>)}
+                        {stories.map((story: any, key: number) => {
+                            return story.result["article"] &&
+                                <Card story={story.result["article"]}
+                                        name={story.result["theme"]} key={key}
+                                        user_story={true}
+                                        deleteStory={() => this.deleteFavStory(story.result["story_id"])}/>
+                        })
+                        }
                     </div>
                 </div>
             );

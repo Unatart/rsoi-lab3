@@ -25,15 +25,25 @@ export class HomePage extends React.Component<{is_auth:boolean}, IHomeState> {
                 "Content-Type" : "application/json"}
         };
 
+        let stories:any = [];
         fetch("http://localhost:5000/stories", options)
             .then((response: Response) => {
                 return response.json();
             })
             .then((data:any) => {
+                const promises = data.map((v: any) => {
+                    return fetch("http://localhost:5000/stories/" + v.id, options)
+                            .then((response: Response) => response.json())
+                            .then((result: any) => stories.push({result}))
+                            .catch((error: any) => console.log(error))
+                });
+                return Promise.all(promises);
+            })
+            .then(() => {
                 this.setState({
                     ...this.state,
-                    data: data,
-                    amount: Math.ceil(data.length / 5)
+                    data: stories,
+                    amount: 3
                 });
             })
             .catch((error: any) => {
@@ -56,14 +66,25 @@ export class HomePage extends React.Component<{is_auth:boolean}, IHomeState> {
                 "Content-Type" : "application/json"}
         };
 
+        let stories:any = [];
         fetch("http://localhost:5000/stories/?pageNo=" + pageNo + "&size=" + 5, options)
             .then((response: Response) => {
                 return response.json();
             })
             .then((data:any) => {
+                const promises = data.map((v: any) => {
+                    return fetch("http://localhost:5000/stories/" + v.id, options)
+                        .then((response: Response) => response.json())
+                        .then((result: any) => stories.push({result}))
+                        .catch((error: any) => console.log(error))
+                });
+                return Promise.all(promises);
+            })
+            .then(() => {
                 this.setState({
                     ...this.state,
-                    data: data
+                    data: stories,
+                    amount: 3
                 });
             })
             .catch((error: any) => {
@@ -105,20 +126,25 @@ export class HomePage extends React.Component<{is_auth:boolean}, IHomeState> {
     }
 
     public render() {
-        if (this.state.data) {
+        if (this.state.data && this.state.data.length > 0) {
             const stories = this.state.data.slice(0, 5);
             return (
                 <div>
                     <div>
-                        {stories.map((story:any, key:number) => <Card story={story["article"]}
-                                                                     name={story["theme"]}
-                                                                     key={key}
-                                                                     makeFav={() => this.makeFav(story["id"])}
-                                                                     is_auth={this.props.is_auth}
-                                                                     user_story={this.cookie_worker.get("user") === story["author"]}
-                                                                     deleteStory={() => this.deleteStory(story["id"])}/>)}
+                        {stories.map((story: any, key: number) => {
+                            return (<Card story={story.result["article"]}
+                                        name={story.result["theme"]}
+                                        key={key}
+                                        makeFav={() => this.makeFav(story.result["id"])}
+                                        is_auth={this.props.is_auth}
+                                        author={story.result["author"]}
+                                        user_story={this.cookie_worker.get("user") === story.result["author"]}
+                                        deleteStory={() => this.deleteStory(story.result["id"])}/>);
+                        })
+                        }
                     </div>
-                    <Pagination data={this.state.data} amount={this.state.amount} pageNo={this.state.pageNo} onClick={(pageNo:number) => this.onPageClick(pageNo)}/>
+                    <Pagination data={this.state.data} amount={this.state.amount} pageNo={this.state.pageNo}
+                                onClick={(pageNo: number) => this.onPageClick(pageNo)}/>
                 </div>
             );
         }

@@ -29,23 +29,26 @@ export class CreateCard extends React.Component<{}, ICreateCardState>{
     }
 
     public createStory = () => {
-        const options:RequestInit = {
-            method: 'POST',
-            mode: 'cors',
-            credentials: "include",
-            headers: {
-                "Access-Control-Allow-Credentials" : "true",
-                "Content-Type" : "application/json"},
-            body: JSON.stringify({
-                theme: this.state.theme,
-                article: this.state.article
-            })
-        };
+        if (this.state.article && this.state.theme) {
+            const options: RequestInit = {
+                method: 'POST',
+                mode: 'cors',
+                credentials: "include",
+                headers: {
+                    "Access-Control-Allow-Credentials": "true",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    theme: this.state.theme,
+                    article: this.state.article
+                })
+            };
 
-        const user_id = new CookieWorker().get("user");
-        fetch("http://localhost:5000/user/"+user_id+"/stories", options)
-            .then((response:Response) => response.json())
-            .catch((error:any) => console.log(error))
+            const user_id = new CookieWorker().get("user");
+            fetch("http://localhost:5000/user/" + user_id + "/stories", options)
+                .then((response: Response) => response.json())
+                .catch((error: any) => console.log(error))
+        }
     }
 
     public render() {

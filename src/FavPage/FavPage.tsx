@@ -19,7 +19,8 @@ export class FavPage extends React.Component<{}, IFavState> {
             credentials: "include",
             headers: {
                 "Access-Control-Allow-Credentials" : "true",
-                "Content-Type" : "application/json"}
+                "Content-Type" : "application/json",
+                "Authorization": "Bearer <"+this.cookie_worker.get("token")+">"}
         };
 
         let stories:any = [];
@@ -49,14 +50,15 @@ export class FavPage extends React.Component<{}, IFavState> {
             credentials: "include",
             headers: {
                 "Access-Control-Allow-Credentials" : "true",
-                "Content-Type" : "application/json"
+                "Content-Type" : "application/json",
+                "Authorization": "Bearer <"+this.cookie_worker.get("token")+">"
             }
         };
 
         fetch("http://localhost:5000/user/"+this.user+"/stories/"+story_id+"/favourites", options)
             .then(() => window.location.reload())
             .catch((error:any) => console.log(error));
-    }
+    };
 
     public render() {
         if (this.state.data && this.state.data.length > 0) {
@@ -80,4 +82,5 @@ export class FavPage extends React.Component<{}, IFavState> {
     }
 
     private user = new CookieWorker().get('user');
+    private cookie_worker = new CookieWorker();
 }

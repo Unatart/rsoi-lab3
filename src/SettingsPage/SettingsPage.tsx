@@ -34,7 +34,9 @@ export class SettingsPage extends React.Component<{}, ISettingsState> {
             credentials: "include",
             headers: {
                 "Access-Control-Allow-Credentials" : "true",
-                "Content-Type" : "application/json"}
+                "Content-Type" : "application/json",
+                "Authorization": "Bearer <"+this.cookie_worker.get("token")+">"
+            }
         };
 
         this.setState({
@@ -86,7 +88,8 @@ export class SettingsPage extends React.Component<{}, ISettingsState> {
                 credentials: "include",
                 headers: {
                     "Access-Control-Allow-Credentials": "true",
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer <"+this.cookie_worker.get("token")+">"
                 },
                 body: JSON.stringify({
                     name: this.state.name,
@@ -102,7 +105,8 @@ export class SettingsPage extends React.Component<{}, ISettingsState> {
                 credentials: "include",
                 headers: {
                     "Access-Control-Allow-Credentials": "true",
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer <"+this.cookie_worker.get("token")+">"
                 },
                 body: JSON.stringify({
                     email: this.state.email,

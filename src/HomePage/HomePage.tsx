@@ -63,7 +63,8 @@ export class HomePage extends React.Component<{is_auth:boolean}, IHomeState> {
             credentials: "include",
             headers: {
                 "Access-Control-Allow-Credentials" : "true",
-                "Content-Type" : "application/json"}
+                "Content-Type" : "application/json"
+            }
         };
 
         let stories:any = [];
@@ -90,7 +91,7 @@ export class HomePage extends React.Component<{is_auth:boolean}, IHomeState> {
             .catch((error: any) => {
                 console.log(error);
             });
-    }
+    };
 
     public makeFav = (story_id:number) => {
         const options:RequestInit = {
@@ -99,14 +100,16 @@ export class HomePage extends React.Component<{is_auth:boolean}, IHomeState> {
             credentials: "include",
             headers: {
                 "Access-Control-Allow-Credentials" : "true",
-                "Content-Type" : "application/json"}
+                "Content-Type" : "application/json",
+                "Authorization": "Bearer <"+this.cookie_worker.get("token")+">"
+            }
         };
 
         const user_id = new CookieWorker().get("user");
         fetch("http://localhost:5000/user/"+user_id+"/stories/"+story_id+"/favourites", options)
             .then((response:Response) => response.json())
             .catch((error:any) => console.log(error))
-    }
+    };
 
     public deleteStory = (story_id:number) => {
         const options:RequestInit = {
@@ -115,7 +118,8 @@ export class HomePage extends React.Component<{is_auth:boolean}, IHomeState> {
             credentials: "include",
             headers: {
                 "Access-Control-Allow-Credentials" : "true",
-                "Content-Type" : "application/json"
+                "Content-Type" : "application/json",
+                "Authorization": "Bearer <"+this.cookie_worker.get("token")+">"
             }
         };
 
@@ -123,7 +127,7 @@ export class HomePage extends React.Component<{is_auth:boolean}, IHomeState> {
         fetch("http://localhost:5000/user/"+user_id+"/stories/"+story_id, options)
             .then(() => window.location.reload())
             .catch((error:any) => console.log(error));
-    }
+    };
 
     public render() {
         if (this.state.data && this.state.data.length > 0) {
@@ -135,11 +139,11 @@ export class HomePage extends React.Component<{is_auth:boolean}, IHomeState> {
                             return (<Card story={story.result["article"]}
                                         name={story.result["theme"]}
                                         key={key}
-                                        makeFav={() => this.makeFav(story.result["id"])}
+                                        makeFav={() => this.makeFav(story.result["story_id"])}
                                         is_auth={this.props.is_auth}
                                         author={story.result["author"]}
-                                        user_story={this.cookie_worker.get("user") === story.result["author"]}
-                                        deleteStory={() => this.deleteStory(story.result["id"])}/>);
+                                        user_story={this.cookie_worker.get("name") === story.result["author"]}
+                                        deleteStory={() => this.deleteStory(story.result["story_id"])}/>);
                         })
                         }
                     </div>

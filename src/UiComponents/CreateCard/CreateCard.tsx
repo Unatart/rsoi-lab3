@@ -26,38 +26,41 @@ export class CreateCard extends React.Component<{}, ICreateCardState>{
             ...this.state,
             [name]: value
         });
-    }
+    };
 
-    public createStory = () => {
-        if (this.state.article && this.state.theme) {
-            const options: RequestInit = {
-                method: 'POST',
-                mode: 'cors',
-                credentials: "include",
-                headers: {
-                    "Access-Control-Allow-Credentials": "true",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    theme: this.state.theme,
-                    article: this.state.article
-                })
-            };
+    public createStory = async () => {
+        const options: RequestInit = {
+            method: 'POST',
+            mode: 'cors',
+            credentials: "include",
+            headers: {
+                "Access-Control-Allow-Credentials": "true",
+                "Content-Type": "application/json",
+                "Authorization": "Bearer <"+this.cookie_worker.get("token")+">"
+            },
+            body: JSON.stringify({
+                theme: this.state.theme,
+                article: this.state.article
+            })
+        };
 
-            const user_id = new CookieWorker().get("user");
-            fetch("http://localhost:5000/user/" + user_id + "/stories", options)
-                .then((response: Response) => response.json())
-                .catch((error: any) => console.log(error))
-        }
-    }
+        console.log('send');
+        const user_id = this.cookie_worker.get("user");
+        const response = await fetch("http://localhost:5000/user/" + user_id + "/stories", options)
+            .catch((error: any) => console.log(error));
+
+        console.log(response);
+    };
 
     public render() {
         return (
             <form className='form'>
                 <input className='create-card-theme' name='theme' type='text' placeholder='Theme' onChange={(event) => this.handleChange(event)}/>
                 <textarea className='create-card-story' name='article' placeholder='Article' onChange={(event) => this.handleChange(event)}/>
-                <input className='submit-story-btn' type='submit' value='Create story' onClick={() => this.createStory()}/>
+                <input className='submit-story-btn' type='submit' value='Create story' onClick={this.createStory}/>
             </form>
         );
     }
+
+    private cookie_worker = new CookieWorker();
 }

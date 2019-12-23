@@ -70,23 +70,34 @@ class AuthPage extends React.Component<IAuthProps, IAuthState> {
                 body: JSON.stringify({name: this.state.username, password: this.state.password})
             };
 
-            fetch("http://localhost:5000/user/auth", options)
+            fetch("http://localhost:3006/auth", options)
                 .then((response: Response) => {
                     return response.json();
                 })
-                .then((data: any) => {
+                .then( async (data: any) => {
                     if (data.error) {
                         return this.setState({
                             ...this.state,
                             error: data.error
                         });
                     }
-                    this.cookie_worker.set("user", data.user.id);
+                    this.cookie_worker.set("user", data.user.user_id);
                     this.cookie_worker.set("name", data.user.name);
                     this.cookie_worker.set("phone", data.user.phone);
                     this.cookie_worker.set("email", data.user.email);
-                    this.props.history.push("/");
-                    this.props.update_handler();
+                    this.cookie_worker.set("token", data.session.token);
+                    const result = await fetch("http://localhost:5000/user/"+ data.user.user_id+"/notifications", {
+                        ...options,
+                        headers: {
+                            ...options.headers,
+                            "Authorization": "Bearer <"+this.cookie_worker.get("token")+">"
+                        }
+                    });
+
+                    if (result.status === 200) {
+                        this.props.history.push("/");
+                        this.props.update_handler();
+                    }
                 })
                 .catch((error:any) => {
                     this.setState({

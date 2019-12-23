@@ -142,6 +142,10 @@ export class SettingsPage extends React.Component<{}, ISettingsState> {
                             }
                             this.cookie_worker.set("phone_on", data.phone);
                             this.cookie_worker.set("email_on", data.email);
+                            this.setState({
+                                ...this.state,
+                                error: "OK"
+                            })
                         })
                         .catch((error: any) => console.log(error));
                 })

@@ -18,6 +18,7 @@ export class CreateCard extends React.Component<{}, ICreateCardState>{
     }
 
     public handleChange = (event:any) => {
+        console.log('CHANGE');
         event.preventDefault();
         const value = event.target.value;
         const name = event.target.name;

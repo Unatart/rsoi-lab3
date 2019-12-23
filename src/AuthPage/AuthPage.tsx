@@ -74,7 +74,7 @@ class AuthPage extends React.Component<IAuthProps, IAuthState> {
                 .then((response: Response) => {
                     return response.json();
                 })
-                .then( async (data: any) => {
+                .then((data: any) => {
                     if (data.error) {
                         return this.setState({
                             ...this.state,
@@ -86,18 +86,8 @@ class AuthPage extends React.Component<IAuthProps, IAuthState> {
                     this.cookie_worker.set("phone", data.user.phone);
                     this.cookie_worker.set("email", data.user.email);
                     this.cookie_worker.set("token", data.session.token);
-                    const result = await fetch("http://localhost:5000/user/"+ data.user.user_id+"/notifications", {
-                        ...options,
-                        headers: {
-                            ...options.headers,
-                            "Authorization": "Bearer <"+this.cookie_worker.get("token")+">"
-                        }
-                    });
-
-                    if (result.status === 200) {
-                        this.props.history.push("/");
-                        this.props.update_handler();
-                    }
+                    this.props.history.push("/");
+                    this.props.update_handler();
                 })
                 .catch((error:any) => {
                     this.setState({

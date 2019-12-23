@@ -1,6 +1,7 @@
 import React from "react"
 import {Link} from "react-router-dom";
 import "./Navbar.css";
+import {CookieWorker} from "../../Cookie/CookieWorker";
 
 export interface INavBarProps {
     home?:boolean;
@@ -26,6 +27,14 @@ export function Navbar(props:INavBarProps):JSX.Element {
             </li>}
             {props.settings && <li>
                 <Link className="story" to="/create_story">create a new story</Link>
+            </li>}
+            {props.settings && <li>
+                <Link className="logout" to="/" onClick={() => {
+                    const cookie_worker = new CookieWorker();
+                    cookie_worker.deleteAllCookies();
+                    window.location.reload();
+                }
+                }>logout :(</Link>
             </li>}
         </ul>
     );

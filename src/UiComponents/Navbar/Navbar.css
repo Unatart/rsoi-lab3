@@ -27,3 +27,8 @@ li a:hover {
 .story {
     border-left: 1px solid white;
 }
+
+.logout {
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+}

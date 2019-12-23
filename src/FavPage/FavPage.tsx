@@ -25,7 +25,13 @@ export class FavPage extends React.Component<{}, IFavState> {
 
         let stories:any = [];
         fetch("http://localhost:5000/user/"+this.user+"/favourites", options)
-            .then((response: Response) => response.json())
+            .then((res:any) => {
+                if (res.status === 401) {
+                    this.cookie_worker.deleteAllCookies();
+                    this.setState({});
+                }
+                return res.json();
+            })
             .then((data:any) => {
                 const promises = data.map((v: any) => fetch("http://localhost:5000/stories/" + v.story_id, options)
                         .then((response: Response) => response.json())
@@ -56,6 +62,13 @@ export class FavPage extends React.Component<{}, IFavState> {
         };
 
         fetch("http://localhost:5000/user/"+this.user+"/stories/"+story_id+"/favourites", options)
+            .then((res:any) => {
+                if (res.status === 401) {
+                    this.cookie_worker.deleteAllCookies();
+                    this.setState({});
+                }
+                return res.json();
+            })
             .then(() => window.location.reload())
             .catch((error:any) => console.log(error));
     };

@@ -107,7 +107,13 @@ export class HomePage extends React.Component<{is_auth:boolean}, IHomeState> {
 
         const user_id = new CookieWorker().get("user");
         fetch("http://localhost:5000/user/"+user_id+"/stories/"+story_id+"/favourites", options)
-            .then((response:Response) => response.json())
+            .then((res:any) => {
+                if (res.status === 401) {
+                    this.cookie_worker.deleteAllCookies();
+                    this.setState({});
+                }
+                return res.json();
+            })
             .catch((error:any) => console.log(error))
     };
 
@@ -125,6 +131,13 @@ export class HomePage extends React.Component<{is_auth:boolean}, IHomeState> {
 
         const user_id = new CookieWorker().get("user");
         fetch("http://localhost:5000/user/"+user_id+"/stories/"+story_id, options)
+            .then((res:any) => {
+                if (res.status === 401) {
+                    this.cookie_worker.deleteAllCookies();
+                    this.setState({});
+                }
+                return res.json();
+            })
             .then(() => window.location.reload())
             .catch((error:any) => console.log(error));
     };

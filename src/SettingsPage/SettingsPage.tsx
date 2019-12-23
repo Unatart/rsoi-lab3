@@ -45,7 +45,13 @@ export class SettingsPage extends React.Component<{}, ISettingsState> {
         });
 
         fetch("http://localhost:5000/user/"+this.cookie_worker.get("user")+"/notifications", options)
-            .then((res:any) => res.json())
+            .then((res:any) => {
+                if (res.status === 401) {
+                    this.cookie_worker.deleteAllCookies();
+                    this.setState({});
+                }
+                return res.json();
+            })
             .then((data:any) => {
                 this.setState({
                     ...this.state,
@@ -115,7 +121,13 @@ export class SettingsPage extends React.Component<{}, ISettingsState> {
             };
 
             fetch("http://localhost:5000/user/" + this.cookie_worker.get("user"), options)
-                .then((res: Response) => res.json())
+                .then((res:any) => {
+                    if (res.status === 401) {
+                        this.cookie_worker.deleteAllCookies();
+                        this.setState({});
+                    }
+                    return res.json();
+                })
                 .then((body: any) => {
                     if (body.error) {
                         return this.setState({

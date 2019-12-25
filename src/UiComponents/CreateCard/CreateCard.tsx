@@ -15,6 +15,7 @@ export class CreateCard extends React.Component<{}, ICreateCardState>{
             theme: ""
         };
         this.handleChange = this.handleChange.bind(this);
+        this.createStory = this.createStory.bind(this);
     }
 
     public handleChange = (event:any) => {

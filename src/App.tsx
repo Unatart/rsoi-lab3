@@ -7,6 +7,7 @@ import {AuthPageWrapper} from "./AuthPage/AuthPage";
 import {FavPage} from "./FavPage/FavPage";
 import {SettingsPage} from "./SettingsPage/SettingsPage";
 import {CreateCard} from "./UiComponents/CreateCard/CreateCard";
+import {OAuth} from "./OAuthPage/OAuth"
 
 interface IAppState {
     navbar:INavBarProps;
@@ -70,6 +71,7 @@ class App extends React.Component<{}, IAppState> {
                         {this.state.navbar.favs && <Route path="/favs"><FavPage/></Route>}
                         {this.state.navbar.settings && <Route path="/settings"><SettingsPage/></Route>}
                         {this.state.navbar.settings && <Route path="/create_story"><CreateCard/></Route>}
+                        {this.state.navbar.settings && <Route path={"/oauth"}><OAuth/></Route>}
                     </Switch>
                 </div>
             </HashRouter>
